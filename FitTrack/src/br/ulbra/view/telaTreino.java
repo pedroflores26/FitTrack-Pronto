@@ -264,23 +264,28 @@ public class telaTreino extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
    try {
-            Treino t = new Treino();
-            t.setTipo(txtTipoTreino.getText());
-            t.setDuracao(Integer.parseInt(txtDuracaoTreino.getText()));
-            t.setCalorias(Integer.parseInt(txtCaloriasTreino.getText()));
-            t.setDataTreino(txtDataTreino.getText());
+        if (usuarioLogado == null) {
+            JOptionPane.showMessageDialog(this, "Nenhum usuário logado!");
+            return;
+        }
 
-            // Aqui associamos o treino a um "usuário" com base no nome digitado
-            // (se você tiver a tabela usuario, esse nome pode ser substituído pelo idUsuario)
-            t.setIdUsuario(1); // exemplo fixo — altere conforme o seu sistema
+        Treino t = new Treino();
+        t.setTipo(txtTipoTreino.getText());
+        t.setDuracao(Integer.parseInt(txtDuracaoTreino.getText()));
+        t.setCalorias(Integer.parseInt(txtCaloriasTreino.getText()));
+        t.setDataTreino(txtDataTreino.getText());
 
-            controller.salvar(t);
-            JOptionPane.showMessageDialog(null, "Treino salvo com sucesso!");
-            listarTreinos();
-            limparCampos();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar treino: " + ex.getMessage());
-        }       // TODO add your handling code here:
+        // ⚡ Associar o treino ao usuário logado
+        t.setIdUsuario(usuarioLogado.getId());
+
+        controller.salvar(t);
+        JOptionPane.showMessageDialog(null, "Treino salvo com sucesso!");
+        listarTreinos();
+        limparCampos();
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao salvar treino: " + ex.getMessage());
+    }
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private static final int COL_TREINO_OBJ = 0; // ajuste conforme seu layout
